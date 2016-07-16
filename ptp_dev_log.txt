@@ -1,0 +1,129 @@
+----20150127----
+- orignal ptp with cylinder tested to compare Fz using position lookup.
+  . result: Fz_comp_cylinder_new_old.fig  (\yoo\temp); ptp_cylinder_20150127_orig.mat , ptpcylinder_20150127_proved.mat) 
+  . Fz using position (pressure lookup using position) > Fz using particle
+  . Fz suing position is correct (it has been compared with exp. data in paper)
+
+----20150129-----
+- force vs. disp. graph for vertical exp.
+  . comp_exp_sim_sphere_20150129
+
+----20150203-----
+- cubiod exp. for Lateral behavior
+  . cubiod_exp_01.mat (2012_19_01-10_03_01-SoilExpLog_001.txt)
+  . cubiod_exp_02.mat (2012_19_01-10_11_59-SoilExpLog_002.txt)
+  . cubiod_exp_14.mat (2012_30_01-10_11_59-SoilExpLog_002.txt)
+  ref. : cubiod_ExperimentDescription.txt
+
+- sphere exp. for Lateral behaviour
+  . Lateral_2011_04_05_11_50_22.mat (2011_04_05_11_50_22log.csv)
+  . ploted: RefExp3_Pas1.pdf, video exist
+  . Exp3, Try1: sc black foot from soils surface 2cm down then forward (in x direction) 15cm then 10cm up
+  . Lateral_good_result201523172859.mat (result2015_2_3-17_28_59.csv): ptp20150203.zip
+
+- sphere exp. for Vertical behaviour
+  . Vertical_2011_05_04_14_12_14.mat (2011_05_04_14_12_14log.csv)
+ 
+----20150212----  
+- shearCellForce add
+- made calcForce code something clean (unnecessary things deleted)
+- for test simulation with virtual position behavior
+  . option 'k' used for lateral test simulation.
+  . option 'j' used for virtual test simulation.
+- for test simulation with real position behavior from real experiment
+  . option 'K' used for lateral test simulation.
+  . option 'J' used for virtual test simulation.
+- very nice result >> good_lateral_result2015_2_12-17_3_43.csv  
+  . option 'K' used for simulation with position behavior from real experiment.
+  . cell setup:  cell numbers (200, 10, 30) , start(-200, -20, -30), end(200, 0,30)
+- very nice result >> good_vertical_result2015_2_12-17_27_9.csv  
+  . option 'j used for sim.
+  . cell setup:  cell numbers (200, 20, 30) , start(-200, -40, -30), end(200, 0,30)
+- prepared configuration.
+  . ptp_v : test for vertical 
+  . ptp_l : test for lateral
+  
+----20150309------
+- compile method changed :  make  --> cmake ./  after that,   make
+- Eigen library added to use Vector and other math tools
+- axis changed : top on Y axis  >> top on Z axis
+- some variables and functions which are not used cleaned 
+
+
+----20150310------
+- source code from ptp_20150309
+- ptpSoil mars plugin setup for ptp done
+  . for source coding: mars_dev/simulation/mars/plugin/ptpSoil
+  . for running : mars_dev/install/configuration/myTest
+- osg used
+- 3D mouse used  
+- configSim(); : config options for foot test behaviors
+  . Value = 1  :  vertical exp.
+  . Value = 2  :  lateral exp.
+- file access for logging commented out  
+
+----20150414------
+- extended to six feet
+- deleted some codes that are unnecessary (have to check that's correct!)
+
+----20150603 -----
+- dynamic soil surface
+- every foot has a ptpwork() and a calForce()
+
+----20150605------
+<behavior learning framework>
+- info--> file:///home/dfki.uni-bremen.de/yoo/development/learning/bootstrap/doc/html/examples/spaceclimber_bg.html
+- command to run SC in learning plattform:
+mars_app -C . -s ../../../projects/limes/bundle/urdf/spaceclimber/\
+20141128_spaceclimber/SpaceClimber.smurf
+
+mars_app -C . -s "plane.scn;../../../projects/limes/bundle/urdf/spaceclimber/\
+20141128_spaceclimber/SpaceClimber.smurf"
+
+----20150605------
+- the goal of this work is to make seperated soil instances
+- venD Foot --> Vecotr vFoot
+- initializePTP  -->  Vector type input
+- PTP* ptp --> PTP ptp
+- "configSim" in PtpSoil class has been deleted
+- ptpSys  -->  soil
+- soil  -->  soil[6]
+- num,start,end  --> num[6], start[6], end[6]
+- result: 
+  . when PtpSoil plugin runs, it just shows the six seperated soil surfaces
+  . next work should be done in sim (MARE Core)
+  . if collision with Heightmap, then build soil surface on the foot 
+
+- source code is saved to ptpSoil_20150605  
+
+
+-----20150702---
+- Dynamic soil generation done
+- to run this version correctly, you should consider the paramters:
+  . THRESHOLD : -0.04
+  . height of the foot step in the simulation : 0.15
+  
+-----20150716----
+- low pass filter added into WorldPhysics  
+- the problem of strange footprints solved:
+  . don't use #define USE_MOVEMENT_FUNCTION, because there are some error with particleMovement(&pp->loc,lastFoot)
+  . instead of the part of USE MOVEMENT_FUNCTION, we use length between pp position and radius of foot
+
+
+-----20150722----
+- slope surface implemented
+  . height of heightfield calculated
+  . heigher particles than heightmap top have been moved to the position of top of heightmap 
+- footprint code from virtual crater project has been added to soilNode plugin
+ 
+
+  
+  
+  
+  
+  
+
+
+ 
+
+
